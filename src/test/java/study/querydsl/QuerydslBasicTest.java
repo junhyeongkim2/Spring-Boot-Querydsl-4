@@ -243,6 +243,23 @@ public class QuerydslBasicTest {
 
 
 
+    @Test
+    public void join(){
+        List<Member> result = queryFactory
+                .selectFrom(member)
+                .leftJoin(member.team, team)
+                .where(team.name.eq("teamA"))
+                .fetch();
+
+        assertThat(result)
+                .extracting("username")
+                .containsExactly("member1","member2");
+
+
+    }
+
+
+
 
 
 }
