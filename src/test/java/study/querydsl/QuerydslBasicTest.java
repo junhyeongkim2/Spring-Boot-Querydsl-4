@@ -499,6 +499,18 @@ public class QuerydslBasicTest {
         }
     }
 
+    @Test
+    public void concat(){
+        List<String> result = queryFactory
+                .select(member.username.concat("_").concat(member.age.stringValue()))
+                .from(member)
+                .where(member.username.eq("member1"))
+                .fetch();
+
+        for (String st : result){
+            System.out.println("string = " + st);
+        }
+    }
 
 
 
