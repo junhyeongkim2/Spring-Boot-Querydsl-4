@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberDto;
+import study.querydsl.dto.UserDto;
 import study.querydsl.entity.Member;
 import study.querydsl.entity.QMember;
 import study.querydsl.entity.QTeam;
@@ -581,6 +582,20 @@ public class QuerydslBasicTest {
             System.out.println("memberDto = " + memberDto);
         }
     }
+    @Test
+    public void findUserDto(){
+        List<UserDto> result = queryFactory
+                .select(Projections.fields(UserDto.class,
+                        member.username.as("name"),
+                        member.age))
+                .from(member)
+                .fetch();
+
+        for (UserDto userDto : result){
+            System.out.println("userDto = " + userDto);
+        }
+    }
+
 
 
     @Test
@@ -596,16 +611,6 @@ public class QuerydslBasicTest {
             System.out.println("memberDto = " + memberDto);
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 
 
