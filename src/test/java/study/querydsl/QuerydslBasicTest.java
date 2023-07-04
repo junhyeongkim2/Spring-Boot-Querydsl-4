@@ -746,7 +746,14 @@ public class QuerydslBasicTest {
                 .update(member)
                 .set(member.age, member.age.add(1))
                 .execute();
+    }
 
+    @Test
+    public void bulkDelete(){
+        long count = queryFactory
+                .delete(member)
+                .where(member.age.gt(18))
+                .execute();
     }
 
 
