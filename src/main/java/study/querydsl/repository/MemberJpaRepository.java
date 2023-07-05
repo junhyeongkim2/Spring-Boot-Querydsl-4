@@ -80,7 +80,7 @@ public class MemberJpaRepository {
             builder.and(member.username.eq(condition.getUsername()));
         }
         if (hasText(condition.getTeamName())) {
-            builder.and(member.username.eq(condition.getUsername()));
+            builder.and(member.username.eq(condition.getTeamName()));
         }
         if (condition.getAgeGoe() !=null){
             builder.and(member.age.goe(condition.getAgeGoe()));
@@ -88,6 +88,7 @@ public class MemberJpaRepository {
         if (condition.getAgeLoe() !=null){
             builder.and(member.age.loe(condition.getAgeLoe()));
         }
+
 
 
         return queryFactory
@@ -103,6 +104,10 @@ public class MemberJpaRepository {
                 .fetch();
 
     }
+
+
+
+
 
 
 }
