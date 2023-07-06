@@ -129,6 +129,23 @@ public class MemberJpaRepository {
                 .fetch();
     }
 
+
+    public List<Member> searchMember(MemberSearchCondition condition){
+        return queryFactory
+                .selectFrom(member)
+                .leftJoin(member.team, team)
+                .where(
+                        usernameEq(condition.getUsername()),
+                        teamNameEq(condition.getTeamName()),
+                        ageGoe(condition.getAgeGoe()),
+                        ageLoe(condition.getAgeLoe())
+                )
+                .fetch();
+    }
+
+
+
+
     private BooleanExpression usernameEq(String username) {
         return isEmpty(username) ? null :  member.username.eq(username);
     }
