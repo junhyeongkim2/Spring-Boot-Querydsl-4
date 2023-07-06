@@ -62,7 +62,7 @@ class MemberJpaRepositoryTest {
 
     @Test
     @Commit
-    public void searchText(){
+    public void searchTest(){
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");
 

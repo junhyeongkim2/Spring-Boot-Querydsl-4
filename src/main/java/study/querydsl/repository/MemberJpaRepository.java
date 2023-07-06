@@ -130,18 +130,6 @@ public class MemberJpaRepository {
     }
 
 
-    public List<Member> searchMember(MemberSearchCondition condition){
-        return queryFactory
-                .selectFrom(member)
-                .leftJoin(member.team, team)
-                .where(
-                        usernameEq(condition.getUsername()),
-                        teamNameEq(condition.getTeamName()),
-                        ageBetween(condition.getAgeLoe(),condition.getAgeGoe())
-                )
-                .fetch();
-    }
-
 
     private BooleanExpression ageBetween(int ageLoe, int ageGoe){
         return ageGoe(ageLoe).and(ageGoe(ageGoe));
