@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import study.querydsl.dto.MemberSearchCondition;
 import study.querydsl.dto.MemberTeamDto;
@@ -60,6 +61,7 @@ class MemberJpaRepositoryTest {
     }
 
     @Test
+    @Commit
     public void searchText(){
         Team teamA = new Team("teamA");
         Team teamB = new Team("teamB");
@@ -82,13 +84,10 @@ class MemberJpaRepositoryTest {
 
 
         MemberSearchCondition condition = new MemberSearchCondition();
-        condition.setAgeGoe(35);
-        condition.setAgeLoe(40);
         condition.setTeamName("teamB");
 
-        List<MemberTeamDto> result = memberJpaRepository.searchByBuilder(condition);
-
-        assertThat(result).extracting("username").containsExactly("member4");
+        List<MemberTeamDto> result = memberJpaRepository.search(condition);
+        assertThat(result).extracting("username").containsExactly("member3","member4");
 
 
     }
