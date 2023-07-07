@@ -8,9 +8,9 @@ import org.springframework.data.domain.PageImpl;
 import study.querydsl.dto.MemberSearchCondition;
 import study.querydsl.dto.MemberTeamDto;
 import study.querydsl.dto.QMemberTeamDto;
+import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
-import java.awt.print.Pageable;
 import java.util.List;
 
 import static org.aspectj.util.LangUtil.isEmpty;
@@ -46,7 +46,8 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
     }
 
 
-    public Page<MemberTeamDto> searchPageSimple(MemberSearchCondition condition, org.springframework.data.domain.Pageable pageable) {
+    @Override
+    public Page<MemberTeamDto> searchPageSimple(MemberSearchCondition condition, Pageable pageable) {
         QueryResults<MemberTeamDto> results = queryFactory
                 .select(new QMemberTeamDto(
                         member.id.as("memberId"),
@@ -69,12 +70,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
         List<MemberTeamDto> content = results.getResults();
         long total = results.getTotal();
         return new PageImpl<>(content,pageable,total);
-
     }
 
-
+    @Override
     public Page<MemberTeamDto> searchPageComplex(MemberSearchCondition condition, Pageable pageable) {
-        List<MemberTeamDto> fetch = queryFactory
+        QueryResults<MemberTeamDto> results = queryFactory
                 .select(new QMemberTeamDto(
                         member.id.as("memberId"),
                         member.username,
@@ -89,7 +89,11 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom{
                         ageGoe(condition.getAgeGoe()),
                         ageLoe(condition.getAgeLoe())
                 )
-                .fetch();
+                .offset(pageable.getOffset())
+                .fetchResults();
+        List<MemberTeamDto> content = results.getResults();
+        long total = results.getTotal();
+        return new PageImpl<>(content,pageable,total);
 
     }
 
